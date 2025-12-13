@@ -41,9 +41,9 @@ A very simple paint library.
 
 ## See Also
 
-- [https://docs.racket-lang.org/pict/](Pict: Functional Pictures)
-- [https://docs.racket-lang.org/draw/](Racket Drawing Toolkit)
-- [https://docs.racket-lang.org/turtles/index.html](Turtle Graphics)
+- [Pict: Functional Pictures](https://docs.racket-lang.org/pict/)
+- [Racket Drawing Toolkit](https://docs.racket-lang.org/draw/)
+- [Turtle Graphics](https://docs.racket-lang.org/turtles/index.html)
 	
 ## License
 
