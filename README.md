@@ -10,6 +10,7 @@ A very simple paint library.
 
 ```racket
 #lang racket/base
+
 (require
  racket/math
  paint-lib)
@@ -37,6 +38,12 @@ A very simple paint library.
 
 (get-bitmap image 400)
 ```
+
+## See Also
+
+- [https://docs.racket-lang.org/pict/](Pict: Functional Pictures)
+- [https://docs.racket-lang.org/draw/](Racket Drawing Toolkit)
+- [https://docs.racket-lang.org/turtles/index.html](Turtle Graphics)
 	
 ## License
 
