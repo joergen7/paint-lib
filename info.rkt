@@ -1,6 +1,6 @@
 #lang info
 (define collection "paint-lib")
-(define deps '("base"))
+(define deps '("base" "draw-lib"))
 (define build-deps '("scribble-lib" "racket-doc" "rackunit-lib"))
 (define scribblings '(("scribblings/paint-lib.scrbl" ())))
 (define pkg-desc "A very simple paint library.")
