@@ -18,8 +18,8 @@
  "image.rkt"
  "abstract-image.rkt"
  "simple-image.rkt"
- "paint.rkt"
- "abstract-paint.rkt"
+ "turtle.rkt"
+ "abstract-turtle.rkt"
  "syntax-ext.rkt")
 
 (provide
@@ -27,6 +27,6 @@
   "image.rkt"
   "abstract-image.rkt"
   "simple-image.rkt"
-  "paint.rkt"
-  "abstract-paint.rkt"
+  "turtle.rkt"
+  "abstract-turtle.rkt"
   "syntax-ext.rkt"))

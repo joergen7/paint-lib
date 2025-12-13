@@ -12,24 +12,23 @@
    "../syntax-ext.rkt")
 
   (define p
-    (with-paint ()
-      (walk 5)
+    (with-turtle ()
+      (forward 5)
       (turn (* -1/2 pi))
-      (walk 5)
+      (forward 5)
       (turn (* -1/4 pi))
-      (walk (* 5/2 (sqrt 2)))
+      (forward (* 5/2 (sqrt 2)))
       (turn (* -1/2 pi))
-      (walk (* 5/2 (sqrt 2)))
+      (forward (* 5/2 (sqrt 2)))
       (turn (* -1/4 pi))
-      (walk 5)
+      (forward 5)
       (turn (* -3/4 pi))
-      (walk (* 5 (sqrt 2)))
+      (forward (* 5 (sqrt 2)))
       (turn (* -3/4 pi))
-      (walk 5)
+      (forward 5)
       (turn (* -3/4 pi))
-      (walk (* 5 (sqrt 2)))))
+      (forward (* 5 (sqrt 2)))))
 
-  
   (define image
     (make-image p))
 

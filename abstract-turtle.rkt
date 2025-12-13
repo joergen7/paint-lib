@@ -18,19 +18,20 @@
  racket/class
  racket/contract
  racket/math
- "paint.rkt")
+ "turtle.rkt")
 
 (provide
- abstract-paint%
- origin-paint%
- face-paint%
- turn-paint%
- walk-paint%
- write-paint%
+ abstract-turtle%
+ origin-turtle%
+ face-turtle%
+ turn-turtle%
+ forward-turtle%
+ move-turtle%
+ write-turtle%
  normalize-angle)
 
-(define abstract-paint%
-  (class* object% (paint<%>)
+(define abstract-turtle%
+  (class* object% (turtle<%>)
     (super-new)
 
     (abstract
@@ -45,34 +46,39 @@
      transpose
      scale)
 
-    (define/public (sep)
-      (new origin-paint%
+    (define/public (hatch)
+      (new origin-turtle%
            [x    (get-x)]
            [y    (get-y)]
            [face (get-face)]))
 
     (define/public (face angle)
-      (new face-paint%
+      (new face-turtle%
            [parent this]
            [angle  angle]))
 
     (define/public (turn angle)
-      (new turn-paint%
+      (new turn-turtle%
            [parent this]
            [angle  angle]))
 
-    (define/public (walk distance)
-      (new walk-paint%
+    (define/public (forward distance)
+      (new forward-turtle%
+           [parent   this]
+           [distance distance]))
+
+    (define/public (move distance)
+      (new move-turtle%
            [parent   this]
            [distance distance]))
 
     (define/public (write text)
-      (new write-paint%
+      (new write-turtle%
            [parent this]
            [text   text]))))
 
-(define origin-paint%
-  (class abstract-paint%
+(define origin-turtle%
+  (class abstract-turtle%
     (super-new)
 
     (init-field
@@ -105,20 +111,20 @@
       face)
 
     (define/override (transpose x y)
-      (new origin-paint%
+      (new origin-turtle%
            [x    (+ x (get-x))]
            [y    (+ y (get-y))]
            [face (get-face)]))
 
     (define/override (scale factor)
-      (new origin-paint%
+      (new origin-turtle%
            [x    (* factor (get-x))]
            [y    (* factor (get-y))]
            [face (get-face)]))))
 
 
-(define face-paint%
-  (class abstract-paint%
+(define face-turtle%
+  (class abstract-turtle%
     (super-new)
 
     (init-field
@@ -150,17 +156,17 @@
       face)
 
     (define/override (transpose x y)
-      (new face-paint%
+      (new face-turtle%
            [parent (send parent transpose x y)]
            [face   face]))
 
     (define/override (scale factor)
-      (new face-paint%
+      (new face-turtle%
            [parent (send parent scale factor)]
            [face   face]))))
 
-(define turn-paint%
-  (class abstract-paint%
+(define turn-turtle%
+  (class abstract-turtle%
     (super-new)
 
     (init-field
@@ -193,18 +199,18 @@
        (+ angle (send parent get-face))))
 
     (define/override (transpose x y)
-      (new turn-paint%
+      (new turn-turtle%
            [parent (send parent transpose x y)]
            [angle   angle]))
 
     (define/override (scale factor)
-      (new turn-paint%
+      (new turn-turtle%
            [parent (send parent scale factor)]
            [angle  angle]))))
     
 
-(define walk-paint%
-  (class abstract-paint%
+(define forward-turtle%
+  (class abstract-turtle%
     (super-new)
 
     (init-field
@@ -249,17 +255,66 @@
       (send parent get-face))
 
     (define/override (transpose x y)
-      (new walk-paint%
+      (new forward-turtle%
            [parent   (send parent transpose x y)]
            [distance distance]))
 
     (define/override (scale factor)
-      (new walk-paint%
+      (new forward-turtle%
            [parent   (send parent scale factor)]
            [distance (* factor distance)]))))
 
-(define write-paint%
-  (class abstract-paint%
+(define move-turtle%
+  (class abstract-turtle%
+    (super-new)
+
+    (init-field
+     parent
+     distance)
+
+    (define/override (dump dc)
+      (send parent dump dc))
+
+
+    (define/override (get-x)
+      (+ (send parent get-x)
+         (* distance (cos (get-face)))))
+
+    (define/override (get-y)
+      (+ (send parent get-y)
+         (* distance (sin (get-face)))))
+
+    (define/override (get-min-x)
+      (min (send parent get-min-x)
+           (get-x)))
+
+    (define/override (get-max-x)
+      (max (send parent get-max-x)
+           (get-x)))
+
+    (define/override (get-min-y)
+      (min (send parent get-min-y)
+           (get-y)))
+
+    (define/override (get-max-y)
+      (max (send parent get-max-y)
+           (get-y)))
+
+    (define/override (get-face)
+      (send parent get-face))
+
+    (define/override (transpose x y)
+      (new move-turtle%
+           [parent   (send parent transpose x y)]
+           [distance distance]))
+
+    (define/override (scale factor)
+      (new move-turtle%
+           [parent   (send parent scale factor)]
+           [distance (* factor distance)]))))
+
+(define write-turtle%
+  (class abstract-turtle%
     (super-new)
 
     (init-field
@@ -294,12 +349,12 @@
       (send parent get-face))
 
     (define/override (transpose x y)
-      (new write-paint%
+      (new write-turtle%
            [parent (send parent transpose x y)]
            [text   text]))
 
     (define/override (scale factor)
-      (new write-paint%
+      (new write-turtle%
            [parent (send parent scale factor)]
            [text   text]))))
                    

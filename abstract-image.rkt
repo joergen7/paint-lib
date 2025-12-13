@@ -28,7 +28,7 @@
     (super-new)
 
     (abstract
-     get-paint-stream
+     get-turtle-stream
      add
      scale
      transpose)
@@ -36,25 +36,25 @@
     (define/public (get-min-x)
       (apply
        min
-       (for/list ([p (get-paint-stream)])
+       (for/list ([p (get-turtle-stream)])
          (send p get-min-x))))
 
     (define/public (get-max-x)
       (apply
        max
-       (for/list ([p (get-paint-stream)])
+       (for/list ([p (get-turtle-stream)])
          (send p get-max-x))))
 
     (define/public (get-min-y)
       (apply
        min
-       (for/list ([p (get-paint-stream)])
+       (for/list ([p (get-turtle-stream)])
          (send p get-min-y))))
 
     (define/public (get-max-y)
       (apply
        max
-       (for/list ([p (get-paint-stream)])
+       (for/list ([p (get-turtle-stream)])
          (send p get-max-y))))
 
     (define/public (get-width)
@@ -88,5 +88,5 @@
       (for-each
        (lambda (p)
          (send p dump dc))
-       (stream->list (send c1 get-paint-stream)))
+       (stream->list (send c1 get-turtle-stream)))
       bitmap)))

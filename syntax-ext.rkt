@@ -17,38 +17,38 @@
 (require
  racket/class
  racket/stream
- "abstract-paint.rkt"
+ "abstract-turtle.rkt"
  "simple-image.rkt"
  (for-syntax
   racket/base
   syntax/parse))
 
 (provide
- with-paint
+ with-turtle
  make-image
- make-paint
+ make-turtle
  split
  get-bitmap)
 
-(define-syntax (with-paint stx)
+(define-syntax (with-turtle stx)
   (syntax-parse stx
     [(_ () x_i ...)
-     #'(with-paint ((make-paint)) x_i ...)]
+     #'(with-turtle ((make-turtle)) x_i ...)]
     [(_ (base))
      #'base]
     [(_ (base) (e_i ...) (f_i ...) ...)
-     #'(with-paint ((send base e_i ...)) (f_i ...) ...)]))
+     #'(with-turtle ((send base e_i ...)) (f_i ...) ...)]))
 
 (define-syntax (make-image stx)
   (syntax-parse stx
     [(_ p ...)
      #'(new simple-image%
-            [paint-stream (stream p ...)])]))
+            [turtle-stream (stream p ...)])]))
 
-(define-syntax (make-paint stx)
+(define-syntax (make-turtle stx)
   (syntax-parse stx
     [(_)
-     #'(new origin-paint%)]))
+     #'(new origin-turtle%)]))
 
 (define-syntax (split stx)
   (syntax-parse stx

@@ -27,26 +27,26 @@
     (super-new)
 
     (init-field
-     [paint-stream (stream)])
+     [turtle-stream (stream)])
 
-    (define/override (get-paint-stream)
-      paint-stream)
+    (define/override (get-turtle-stream)
+      turtle-stream)
 
-    (define/override (add paint)
+    (define/override (add turtle)
       (new simple-image%
-           [paint-stream (stream-cons paint (get-paint-stream))]))
+           [turtle-stream (stream-cons turtle (get-turtle-stream))]))
 
     (define/override (scale factor)
-      (define paint-stream1
-        (for/stream ([p paint-stream])
+      (define turtle-stream1
+        (for/stream ([p turtle-stream])
           (send p scale factor)))
       (new simple-image%
-           [paint-stream paint-stream1]))
+           [turtle-stream turtle-stream1]))
 
     (define/override (transpose x y)
-      (define paint-stream1
-        (for/stream ([p paint-stream])
+      (define turtle-stream1
+        (for/stream ([p turtle-stream])
           (send p transpose x y)))
       (new simple-image%
-           [paint-stream paint-stream1]))))
+           [turtle-stream turtle-stream1]))))
 
