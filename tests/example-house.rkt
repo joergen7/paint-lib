@@ -32,8 +32,10 @@
   (define image
     (make-image p))
 
+  ;; (get-bitmap image 200)
+
   (check-true
-   (is-a? (get-bitmap image 400) bitmap%)))
+   (is-a? (get-bitmap image 200) bitmap%)))
 
 
 

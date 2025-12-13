@@ -38,8 +38,8 @@
 
     (define/override (scale factor)
       (define turtle-stream1
-        (for/stream ([p turtle-stream])
-          (send p scale factor)))
+        (for/stream ([turtle turtle-stream])
+          (send turtle scale factor)))
       (new simple-image%
            [turtle-stream turtle-stream1]))
 

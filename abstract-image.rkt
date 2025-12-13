@@ -72,6 +72,7 @@
           c1
           (send c1 scale (/ width width0))))
 
+
     (define/public (get-bitmap width)
       (define c1
         (fit-width (sub1 width)))

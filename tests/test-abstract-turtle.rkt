@@ -50,6 +50,27 @@
   (check-= (send p5 get-y) -4.0 0.001)
   (check-= (send p5 get-face) (* 7/4 pi) 0.001)
 
+  (define t1
+    (new origin-turtle%))
+
+  (check-= (send t1 get-x) 0 0.001)
+  (check-= (send t1 get-y) 0 0.001)
+  (check-= (send t1 get-step-size) 1 0.001)
+
+  (define t2
+    (send t1 resize 9/10))
+
+  (check-= (send t2 get-x) 0 0.001)
+  (check-= (send t2 get-y) 0 0.001)
+  (check-= (send t2 get-step-size) 9/10 0.001)
+
+  (define t3
+    (send t2 forward 1))
+
+  (check-= (send t3 get-x) 9/10 0.001)
+  (check-= (send t3 get-y) 0 0.001)
+  (check-= (send t3 get-step-size) 9/10 0.001)
+
   )
 
   
