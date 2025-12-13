@@ -13,17 +13,9 @@
     10)
 
   (define t
-    (let recur ([turtle (make-turtle)]
-                [i      n])
-      (cond
-        [(zero? i)
-         turtle]
-        [else
-         (recur
-          (with-turtle (turtle)
-            (forward 1)
-            (turn (/ (* 2 pi) n)))
-          (sub1 i))])))
+    (for/turtle (n)
+      (forward 1)
+      (turn (/ (* 2 pi) n))))
 
   (define image
     (make-image t))

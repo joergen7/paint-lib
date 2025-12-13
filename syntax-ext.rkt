@@ -28,7 +28,8 @@
  make-image
  make-turtle
  split
- get-bitmap)
+ get-bitmap
+ for/turtle)
 
 (define-syntax (with-turtle stx)
   (syntax-parse stx
@@ -59,3 +60,20 @@
   (syntax-parse stx
     [(_ i n)
      #'(send i get-bitmap n)]))
+
+(define-syntax (for/turtle stx)
+  (syntax-parse stx
+    [(_ (n) x ...)
+     #'(for/turtle ((make-turtle) n) x ...)]
+    [(_ (base n) x ...)
+     #'(let recur ([turtle base]
+                   [i      n])
+         (cond
+           [(zero? i)
+            turtle]
+           [else
+            (recur
+             (with-turtle (turtle)
+               x ...)
+             (sub1 i))]))]))
+

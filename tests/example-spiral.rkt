@@ -19,25 +19,14 @@
     .95)
 
   (define t
-    (let recur ([turtle (make-turtle)]
-                [i      n])
-      (cond
-        [(zero? i)
-         turtle]
-        [else
-         (recur
-          (with-turtle (turtle)
-            (forward 1)
-            (turn a)
-            (resize s)
-            )
-          (sub1 i))])))
+    (for/turtle (n)
+      (forward 1)
+      (turn a)
+      (resize s)))
 
   (define image
     (send (make-image t) fit-width 200))
 
-
-  
 
   ;; (get-bitmap image 200)
 
