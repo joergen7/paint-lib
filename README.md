@@ -10,7 +10,9 @@ A very simple paint library.
 
 ```racket
 #lang racket/base
-(require paint-lib)
+(require
+ racket/math
+ paint-lib)
 
 (define p
   (with-paint ()
