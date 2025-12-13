@@ -8,31 +8,33 @@ A very simple paint library.
 
 ## Example
 
-    #lang racket/base
-	(require paint-lib)
+```racket
+#lang racket/base
+(require paint-lib)
 
-    (define p
-      (with-paint ()
-        (walk 5)
-        (turn (* -1/2 pi))
-        (walk 5)
-        (turn (* -1/4 pi))
-        (walk (* 5/2 (sqrt 2)))
-        (turn (* -1/2 pi))
-        (walk (* 5/2 (sqrt 2)))
-        (turn (* -1/4 pi))
-        (walk 5)
-        (turn (* -3/4 pi))
-        (walk (* 5 (sqrt 2)))
-        (turn (* -3/4 pi))
-        (walk 5)
-        (turn (* -3/4 pi))
-        (walk (* 5 (sqrt 2)))))
+(define p
+  (with-paint ()
+    (walk 5)
+    (turn (* -1/2 pi))
+    (walk 5)
+    (turn (* -1/4 pi))
+    (walk (* 5/2 (sqrt 2)))
+    (turn (* -1/2 pi))
+    (walk (* 5/2 (sqrt 2)))
+    (turn (* -1/4 pi))
+    (walk 5)
+    (turn (* -3/4 pi))
+    (walk (* 5 (sqrt 2)))
+    (turn (* -3/4 pi))
+    (walk 5)
+    (turn (* -3/4 pi))
+    (walk (* 5 (sqrt 2)))))
 
-    (define image
-      (make-image p))
+(define image
+  (make-image p))
 
-    (get-bitmap image 400)
+(get-bitmap image 400)
+```
 	
 ## License
 
