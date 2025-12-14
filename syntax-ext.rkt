@@ -24,21 +24,19 @@
   syntax/parse))
 
 (provide
- with-turtle
  make-image
  make-turtle
  split
  get-bitmap
- for/turtle)
-
-(define-syntax (with-turtle stx)
-  (syntax-parse stx
-    [(_ () x_i ...)
-     #'(with-turtle ((make-turtle)) x_i ...)]
-    [(_ (base))
-     #'base]
-    [(_ (base) (e_i ...) (f_i ...) ...)
-     #'(with-turtle ((send base e_i ...)) (f_i ...) ...)]))
+ repeat
+ lambda/turtle
+ define/turtle
+ with-turtle
+ forward
+ hatch
+ move
+ turn
+ resize)
 
 (define-syntax (make-image stx)
   (syntax-parse stx
@@ -61,19 +59,71 @@
     [(_ i n)
      #'(send i get-bitmap n)]))
 
-(define-syntax (for/turtle stx)
+(define-syntax (repeat stx)
   (syntax-parse stx
     [(_ (n) x ...)
-     #'(for/turtle ((make-turtle) n) x ...)]
-    [(_ (base n) x ...)
-     #'(let recur ([turtle base]
-                   [i      n])
-         (cond
-           [(zero? i)
-            turtle]
-           [else
-            (recur
-             (with-turtle (turtle)
-               x ...)
-             (sub1 i))]))]))
+     #'(let recur ([i n])
+         (unless (zero? i)
+           x ...
+           (recur (sub1 i))))]))
+
+(define-syntax (lambda/turtle stx)
+  (syntax-parse stx
+    #:datum-literals (base inductive)
+    [(_ name
+        [base e_i ...]
+        [inductive f_i ...])
+     #'(lambda (turtle n)
+         (with-turtle (turtle)
+           (let recur ([i n])
+             (define (name)
+               (recur (sub1 i)))
+             (cond
+               [(zero? i)
+                e_i ...]
+               [else
+                f_i ...]))))]))
+                
+(define-syntax (define/turtle stx)
+  (syntax-parse stx
+    [(_ name x_i ...)
+     #'(define name
+         (lambda/turtle name x_i ...))]))
+
+
+(define a-turtle
+  (make-parameter #f))
+
+(define-syntax (with-turtle stx)
+  (syntax-parse stx
+    [(_ () e_i ...)
+     #'(with-turtle ((make-turtle)) e_i ...)]
+    [(_ (base) e_i ...)
+     #'(parameterize ([a-turtle base]) e_i ... (a-turtle))]))
+
+(define-syntax (forward stx)
+  (syntax-parse stx
+    [(_ distance)
+     #'(a-turtle (send (a-turtle) forward distance))]))
+
+(define-syntax (hatch stx)
+  (syntax-parse stx
+    [(_)
+     #'(a-turtle (send (a-turtle) hatch))]))
+
+(define-syntax (move stx)
+  (syntax-parse stx
+    [(_ distance)
+     #'(a-turtle (send (a-turtle) move distance))]))
+
+(define-syntax (resize stx)
+  (syntax-parse stx
+    [(_ factor)
+     #'(a-turtle (send (a-turtle) resize factor))]))
+
+(define-syntax (turn stx)
+  (syntax-parse stx
+    [(_ angle)
+     #'(a-turtle (send (a-turtle) turn angle))]))
+
 

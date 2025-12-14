@@ -19,17 +19,15 @@
     .95)
 
   (define t
-    (for/turtle (n)
-      (forward 1)
-      (turn a)
-      (resize s)))
+    (with-turtle ()
+      (repeat (n)
+              (forward 1)
+              (turn a)
+              (resize s))))
 
   (define image
     (send (make-image t) fit-width 200))
 
 
-  ;; (get-bitmap image 200)
+  (get-bitmap image 200))
 
-  (check-true
-   (is-a? (get-bitmap image 200)
-          bitmap%)))

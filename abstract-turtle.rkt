@@ -23,7 +23,6 @@
 (provide
  abstract-turtle%
  origin-turtle%
- face-turtle%
  turn-turtle%
  forward-turtle%
  move-turtle%
@@ -48,22 +47,10 @@
      transpose
      scale)
 
-    (define/public (face angle)
-      (new face-turtle%
-           [parent this]
-           [angle  angle]))
-
     (define/public (forward distance)
       (new forward-turtle%
            [parent   this]
            [distance distance]))
-
-    (define/public (hatch)
-      (new origin-turtle%
-           [x         (get-x)]
-           [y         (get-y)]
-           [face      (get-face)]
-           [step-size (get-step-size)]))
 
     (define/public (move distance)
       (new move-turtle%
@@ -136,51 +123,6 @@
            [face      face]
            [step-size (* factor step-size)]))))
 
-
-(define face-turtle%
-  (class abstract-turtle%
-    (super-new)
-
-    (init-field
-     parent
-     face)
-
-    (define/override (dump dc)
-      (send parent dump dc))
-
-    (define/override (get-x)
-      (send parent get-x))
-
-    (define/override (get-y)
-      (send parent get-y))
-
-    (define/override (get-min-x)
-      (send parent get-min-x))
-
-    (define/override (get-max-x)
-      (send parent get-max-x))
-
-    (define/override (get-min-y)
-      (send parent get-min-y))
-
-    (define/override (get-max-y)
-      (send parent get-max-y))
-
-    (define/override (get-face)
-      face)
-
-    (define/override (get-step-size)
-      (send parent get-step-size))
-
-    (define/override (transpose x y)
-      (new face-turtle%
-           [parent (send parent transpose x y)]
-           [face   face]))
-
-    (define/override (scale factor)
-      (new face-turtle%
-           [parent (send parent scale factor)]
-           [face   face]))))
 
 (define turn-turtle%
   (class abstract-turtle%

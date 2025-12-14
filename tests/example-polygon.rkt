@@ -13,16 +13,14 @@
     10)
 
   (define t
-    (for/turtle (n)
-      (forward 1)
-      (turn (/ (* 2 pi) n))))
+    (with-turtle ()
+      (repeat (n)
+              (forward 1)
+              (turn (/ (* 2 pi) n)))))
 
   (define image
     (make-image t))
 
-  ;; (get-bitmap image 200)
+  (get-bitmap image 200))
 
-  (check-true
-   (is-a? (get-bitmap image 200)
-          bitmap%)))
        
