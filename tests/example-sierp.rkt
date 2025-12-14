@@ -26,7 +26,7 @@
       (forward 1)
       (turn (/ (* 2 pi) n))))
 
-  (define/arc sierp
+  (define/inductive sierp
     [base
      (polygon 3)]
     [inductive

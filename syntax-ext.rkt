@@ -32,8 +32,8 @@
  get-bitmap
  repeat
  with-arc
- lambda/arc
- define/arc
+ lambda/inductive
+ define/inductive
  forward
  turn
  move
@@ -61,7 +61,7 @@
            x ...
            (recur (sub1 i))))]))
 
-(define-syntax (lambda/arc stx)
+(define-syntax (lambda/inductive stx)
   (syntax-parse stx
     #:datum-literals (base inductive)
     [(_ name
@@ -78,11 +78,11 @@
                [else
                 f_i ...]))))]))
                 
-(define-syntax (define/arc stx)
+(define-syntax (define/inductive stx)
   (syntax-parse stx
     [(_ name x_i ...)
      #'(define name
-         (lambda/arc name x_i ...))]))
+         (lambda/inductive name x_i ...))]))
 
 (define a-arc
   (make-parameter #f))
