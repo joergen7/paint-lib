@@ -14,29 +14,35 @@
 
 #lang racket/base
 
-(require
- "normalize-angle.rkt"
- "syntax-ext.rkt"
- "turtle.rkt"
- "abstract-turtle.rkt"
- "null-turtle.rkt"
- "dc-turtle.rkt"
- "arc.rkt"
- "abstract-arc.rkt"
- "image.rkt"
- "abstract-image.rkt"
- "simple-image.rkt")
+(module+ test
+  (require
+   racket/class
+   racket/math
+   rackunit
+   "../syntax-ext.rkt")
 
-(provide
- (all-from-out
- "normalize-angle.rkt"
- "syntax-ext.rkt"
- "turtle.rkt"
- "abstract-turtle.rkt"
- "null-turtle.rkt"
- "dc-turtle.rkt"
- "arc.rkt"
- "abstract-arc.rkt"
- "image.rkt"
- "abstract-image.rkt"
- "simple-image.rkt"))
+  (define (polygon n)
+    (repeat (n)
+      (forward 1)
+      (turn (/ (* 2 pi) n))))
+
+  (define/arc sierp
+    [base
+     (polygon 3)]
+    [inductive
+     (repeat (3)
+       (resize 1/2)
+       (sierp)
+       (resize 2)
+       (move 1)
+       (turn (* 2/3 pi)))])
+
+  (define t
+    (sierp (make-arc) 6))
+
+  (define image
+    (make-image t))
+
+  (send image get-bitmap 400))
+
+ 

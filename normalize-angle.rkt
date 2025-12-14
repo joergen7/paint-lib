@@ -15,28 +15,18 @@
 #lang racket/base
 
 (require
- "normalize-angle.rkt"
- "syntax-ext.rkt"
- "turtle.rkt"
- "abstract-turtle.rkt"
- "null-turtle.rkt"
- "dc-turtle.rkt"
- "arc.rkt"
- "abstract-arc.rkt"
- "image.rkt"
- "abstract-image.rkt"
- "simple-image.rkt")
+ racket/contract
+ racket/math)
 
 (provide
- (all-from-out
- "normalize-angle.rkt"
- "syntax-ext.rkt"
- "turtle.rkt"
- "abstract-turtle.rkt"
- "null-turtle.rkt"
- "dc-turtle.rkt"
- "arc.rkt"
- "abstract-arc.rkt"
- "image.rkt"
- "abstract-image.rkt"
- "simple-image.rkt"))
+ normalize-angle)
+
+(define/contract (normalize-angle angle)
+  (-> rational? rational?)
+  (cond
+    [(negative? angle)
+     (normalize-angle (+ angle (* 2 pi)))]
+    [(>= angle (* 2 pi))
+     (normalize-angle (- angle (* 2 pi)))]
+    [else
+     angle]))

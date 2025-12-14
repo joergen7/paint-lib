@@ -17,26 +17,24 @@
 (require
  racket/class
  racket/contract
+ racket/stream
  racket/draw
- racket/sequence
- racket/math
- "turtle.rkt")
+ "arc.rkt")
 
 (provide
  image<%>)
 
 (define image<%>
   (interface ()
-    [add               (recursive-contract (->m (is-a?/c turtle<%>) (is-a?/c image<%>)))]
-    [transpose         (recursive-contract (->m rational? rational? (is-a?/c image<%>)))]
-    [scale             (recursive-contract (->m rational? (is-a?/c image<%>)))]
-    [get-turtle-stream (->m (sequence/c (is-a?/c turtle<%>)))]
-    [get-min-x         (->m rational?)]
-    [get-max-x         (->m rational?)]
-    [get-min-y         (->m rational?)]
-    [get-max-y         (->m rational?)]
-    [get-width         (->m rational?)]
-    [get-height        (->m rational?)]
-    [fit-width         (recursive-contract (->m natural? (is-a?/c image<%>)))]
-    [get-bitmap        (->m exact-positive-integer? (is-a?/c bitmap%))]))
+    [get-min-x      (->m rational?)]
+    [get-max-x      (->m rational?)]
+    [get-min-y      (->m rational?)]
+    [get-max-y      (->m rational?)]
+    [get-width      (->m rational?)]
+    [get-height     (->m rational?)]
+    [fit-width      (recursive-contract (->m exact-positive-integer? (is-a?/c image<%>)))]
+    [scale          (recursive-contract (->m rational? (is-a?/c image<%>)))]
+    [transpose      (recursive-contract (->m rational? rational? (is-a?/c image<%>)))]
+    [get-arc-stream (->m (stream/c (is-a?/c arc<%>)))]
+    [get-bitmap     (->m rational? (is-a?/c bitmap%))]))
 

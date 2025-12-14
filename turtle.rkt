@@ -15,30 +15,28 @@
 #lang racket/base
 
 (require
- racket/class
- racket/contract
- racket/draw)
+ racket/class)
 
 (provide
  turtle<%>)
 
 (define turtle<%>
   (interface ()
-    [dump          (->m (is-a?/c bitmap-dc%) void?)]
-    [get-face      (->m rational?)]
     [get-x         (->m rational?)]
     [get-y         (->m rational?)]
+    [get-face      (->m rational?)]
+    [get-step-size (->m rational?)]
     [get-min-x     (->m rational?)]
     [get-max-x     (->m rational?)]
     [get-min-y     (->m rational?)]
     [get-max-y     (->m rational?)]
-    [get-step-size (->m rational?)]
-    [forward       (recursive-contract (->m rational? (is-a?/c turtle<%>)))]
-    [move          (recursive-contract (->m rational? (is-a?/c turtle<%>)))]
-    [resize        (recursive-contract (->m rational? (is-a?/c turtle<%>)))]
-    [scale         (recursive-contract (->m rational? (is-a?/c turtle<%>)))]
-    [transpose     (recursive-contract (->m rational? rational? (is-a?/c turtle<%>)))]
-    [turn          (recursive-contract (->m rational? (is-a?/c turtle<%>)))]
-    [write         (recursive-contract (->m string?   (is-a?/c turtle<%>)))]))
-
+    [set-face      (->m rational? void?)]
+    [set-pos       (->m rational? rational? void?)]
+    [set-step-size (->m rational? void?)]
+    [set-min       (->m rational? rational? void?)]
+    [set-max       (->m rational? rational? void?)]
+    [forward       (->m rational? void?)]
+    [move          (->m rational? void?)]
+    [resize        (->m rational? void?)]
+    [turn          (->m rational? void?)]))
 

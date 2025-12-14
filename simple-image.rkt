@@ -27,26 +27,23 @@
     (super-new)
 
     (init-field
-     [turtle-stream (stream)])
+     [arc-stream (stream)])
 
-    (define/override (get-turtle-stream)
-      turtle-stream)
-
-    (define/override (add turtle)
-      (new simple-image%
-           [turtle-stream (stream-cons turtle (get-turtle-stream))]))
-
-    (define/override (scale factor)
-      (define turtle-stream1
-        (for/stream ([turtle turtle-stream])
-          (send turtle scale factor)))
-      (new simple-image%
-           [turtle-stream turtle-stream1]))
+    (define/override (get-arc-stream)
+      arc-stream)
 
     (define/override (transpose x y)
-      (define turtle-stream1
-        (for/stream ([p turtle-stream])
-          (send p transpose x y)))
+      (define arc-stream1
+        (for/stream ([a (in-stream arc-stream)])
+          (send a transpose x y)))
       (new simple-image%
-           [turtle-stream turtle-stream1]))))
+           [arc-stream arc-stream1]))
+
+    (define/override (scale factor)
+      (define arc-stream1
+        (for/stream ([a (in-stream arc-stream)])
+          (send a scale factor)))
+      (new simple-image%
+           [arc-stream arc-stream1]))))
+
 

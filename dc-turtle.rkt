@@ -15,28 +15,38 @@
 #lang racket/base
 
 (require
- "normalize-angle.rkt"
- "syntax-ext.rkt"
- "turtle.rkt"
- "abstract-turtle.rkt"
- "null-turtle.rkt"
- "dc-turtle.rkt"
- "arc.rkt"
- "abstract-arc.rkt"
- "image.rkt"
- "abstract-image.rkt"
- "simple-image.rkt")
+ racket/class
+ "null-turtle.rkt")
 
 (provide
- (all-from-out
- "normalize-angle.rkt"
- "syntax-ext.rkt"
- "turtle.rkt"
- "abstract-turtle.rkt"
- "null-turtle.rkt"
- "dc-turtle.rkt"
- "arc.rkt"
- "abstract-arc.rkt"
- "image.rkt"
- "abstract-image.rkt"
- "simple-image.rkt"))
+ dc-turtle%)
+
+(define dc-turtle%
+  (class null-turtle%
+    (super-new)
+
+    (init-field
+     dc)
+
+    (inherit
+     get-x
+     get-y
+     move)
+
+    (define/override (forward distance)
+      (define x0
+        (get-x))
+      (define y0
+        (- (get-y)))
+      (move distance)
+      (define x1
+        (get-x))
+      (define y1
+        (- (get-y)))
+      (send dc
+            draw-line
+            (inexact->exact (round x0))
+            (inexact->exact (round y0))
+            (inexact->exact (round x1))
+            (inexact->exact (round y1))))))
+

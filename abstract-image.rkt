@@ -18,7 +18,9 @@
  racket/class
  racket/draw
  racket/stream
- "image.rkt")
+ "image.rkt"
+ "null-turtle.rkt"
+ "dc-turtle.rkt")
 
 (provide
  abstract-image%)
@@ -28,34 +30,40 @@
     (super-new)
 
     (abstract
-     get-turtle-stream
-     add
-     scale
-     transpose)
+     get-arc-stream
+     transpose
+     scale)
+
+    (define turtle-stream
+      (for/stream ([a (in-stream (get-arc-stream))])
+        (define turtle
+          (new null-turtle%))
+        (send a guide turtle)
+        turtle))
 
     (define/public (get-min-x)
       (apply
        min
-       (for/list ([p (get-turtle-stream)])
-         (send p get-min-x))))
+       (for/list ([t (in-stream turtle-stream)])
+         (send t get-min-x))))
 
     (define/public (get-max-x)
       (apply
-       max
-       (for/list ([p (get-turtle-stream)])
-         (send p get-max-x))))
+       min
+       (for/list ([t (in-stream turtle-stream)])
+         (send t get-max-x))))
 
     (define/public (get-min-y)
       (apply
-       min
-       (for/list ([p (get-turtle-stream)])
-         (send p get-min-y))))
+       max
+       (for/list ([t (in-stream turtle-stream)])
+         (send t get-min-y))))
 
     (define/public (get-max-y)
       (apply
        max
-       (for/list ([p (get-turtle-stream)])
-         (send p get-max-y))))
+       (for/list ([t (in-stream turtle-stream)])
+         (send t get-max-y))))
 
     (define/public (get-width)
       (- (get-max-x) (get-min-x)))
@@ -64,30 +72,33 @@
       (- (get-max-y) (get-min-y)))
 
     (define/public (fit-width width)
-      (define c1
-        (transpose (- (get-min-x)) (- (get-min-y))))
+      (define image1
+        (transpose (- (get-min-x)) (- (get-max-y))))
       (define width0
         (get-width))
-      (if (zero? width0)
-          c1
-          (send c1 scale (/ width width0))))
-
+      (send image1 scale (/ (sub1 width) width0)))
 
     (define/public (get-bitmap width)
-      (define c1
-        (fit-width (sub1 width)))
+      (define image1
+        (fit-width width))
       (define height
         (add1
          (inexact->exact
           (round
-           (send c1 get-height)))))
+           (send image1 get-height)))))
       (define bitmap
         (make-bitmap width height))
       (define dc
         (new bitmap-dc%
              [bitmap bitmap]))
-      (for-each
-       (lambda (p)
-         (send p dump dc))
-       (stream->list (send c1 get-turtle-stream)))
+      (define turtle
+        (new dc-turtle%
+             [dc dc]))
+      (stream-for-each
+       (lambda (a)
+         (send a guide turtle))
+       (send image1 get-arc-stream))
       bitmap)))
+
+
+

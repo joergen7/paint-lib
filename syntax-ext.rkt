@@ -15,49 +15,43 @@
 #lang racket/base
 
 (require
- racket/class
- racket/stream
- "abstract-turtle.rkt"
- "simple-image.rkt"
  (for-syntax
   racket/base
-  syntax/parse))
+  syntax/parse)
+ racket/class
+ racket/contract
+ racket/draw
+ "simple-image.rkt"
+ "arc.rkt"
+ "image.rkt"
+ "abstract-arc.rkt")
 
 (provide
  make-image
- make-turtle
- split
+ make-arc
  get-bitmap
  repeat
- lambda/turtle
- define/turtle
- with-turtle
+ with-arc
+ lambda/arc
+ define/arc
  forward
- hatch
- move
  turn
+ move
  resize)
 
-(define-syntax (make-image stx)
-  (syntax-parse stx
-    [(_ p ...)
-     #'(new simple-image%
-            [turtle-stream (stream p ...)])]))
+(define/contract (make-image . arc-list)
+  (-> (is-a?/c arc<%>) ... (is-a?/c image<%>))
+  (new simple-image%
+       [arc-stream arc-list]))
 
-(define-syntax (make-turtle stx)
-  (syntax-parse stx
-    [(_)
-     #'(new origin-turtle%)]))
+(define/contract (make-arc)
+  (-> (is-a?/c arc<%>))
+  (new origin-arc%))
 
-(define-syntax (split stx)
-  (syntax-parse stx
-    [(_ p)
-     #'(send p split)]))
+(define/contract (get-bitmap image width)
+  (-> (is-a?/c image<%>) exact-positive-integer? (is-a?/c bitmap%))
+  (send image get-bitmap width))
 
-(define-syntax (get-bitmap stx)
-  (syntax-parse stx
-    [(_ i n)
-     #'(send i get-bitmap n)]))
 
 (define-syntax (repeat stx)
   (syntax-parse stx
@@ -67,14 +61,14 @@
            x ...
            (recur (sub1 i))))]))
 
-(define-syntax (lambda/turtle stx)
+(define-syntax (lambda/arc stx)
   (syntax-parse stx
     #:datum-literals (base inductive)
     [(_ name
         [base e_i ...]
         [inductive f_i ...])
-     #'(lambda (turtle n)
-         (with-turtle (turtle)
+     #'(lambda (arc n)
+         (with-arc (arc)
            (let recur ([i n])
              (define (name)
                (recur (sub1 i)))
@@ -84,46 +78,39 @@
                [else
                 f_i ...]))))]))
                 
-(define-syntax (define/turtle stx)
+(define-syntax (define/arc stx)
   (syntax-parse stx
     [(_ name x_i ...)
      #'(define name
-         (lambda/turtle name x_i ...))]))
+         (lambda/arc name x_i ...))]))
 
-
-(define a-turtle
+(define a-arc
   (make-parameter #f))
 
-(define-syntax (with-turtle stx)
+(define-syntax (with-arc stx)
   (syntax-parse stx
-    [(_ () e_i ...)
-     #'(with-turtle ((make-turtle)) e_i ...)]
-    [(_ (base) e_i ...)
-     #'(parameterize ([a-turtle base]) e_i ... (a-turtle))]))
+    [(_ ()
+        e_i ...)
+     #'(with-arc ((make-arc))
+         e_i ...)]
+    [(_ (base)
+        e_i ...)
+     #'(parameterize ([a-arc base])
+         e_i ...
+         (a-arc))]))
 
-(define-syntax (forward stx)
-  (syntax-parse stx
-    [(_ distance)
-     #'(a-turtle (send (a-turtle) forward distance))]))
+(define/contract (forward distance)
+  (-> rational? void?)
+  (a-arc (send (a-arc) forward distance)))
 
-(define-syntax (hatch stx)
-  (syntax-parse stx
-    [(_)
-     #'(a-turtle (send (a-turtle) hatch))]))
+(define/contract (turn angle)
+  (-> rational? void?)
+  (a-arc (send (a-arc) turn angle)))
 
-(define-syntax (move stx)
-  (syntax-parse stx
-    [(_ distance)
-     #'(a-turtle (send (a-turtle) move distance))]))
+(define/contract (resize factor)
+  (-> rational? void)
+  (a-arc (send (a-arc) resize factor)))
 
-(define-syntax (resize stx)
-  (syntax-parse stx
-    [(_ factor)
-     #'(a-turtle (send (a-turtle) resize factor))]))
-
-(define-syntax (turn stx)
-  (syntax-parse stx
-    [(_ angle)
-     #'(a-turtle (send (a-turtle) turn angle))]))
-
-
+(define/contract (move distance)
+  (-> rational? void)
+  (a-arc (send (a-arc) move distance)))

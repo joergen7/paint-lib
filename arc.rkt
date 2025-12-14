@@ -15,28 +15,21 @@
 #lang racket/base
 
 (require
- "normalize-angle.rkt"
- "syntax-ext.rkt"
- "turtle.rkt"
- "abstract-turtle.rkt"
- "null-turtle.rkt"
- "dc-turtle.rkt"
- "arc.rkt"
- "abstract-arc.rkt"
- "image.rkt"
- "abstract-image.rkt"
- "simple-image.rkt")
+ racket/class
+ racket/contract
+ "turtle.rkt")
 
 (provide
- (all-from-out
- "normalize-angle.rkt"
- "syntax-ext.rkt"
- "turtle.rkt"
- "abstract-turtle.rkt"
- "null-turtle.rkt"
- "dc-turtle.rkt"
- "arc.rkt"
- "abstract-arc.rkt"
- "image.rkt"
- "abstract-image.rkt"
- "simple-image.rkt"))
+ arc<%>)
+
+(define arc<%>
+  (interface ()
+    [forward   (recursive-contract (->m rational? (is-a?/c arc<%>)))]
+    [turn      (recursive-contract (->m rational? (is-a?/c arc<%>)))]
+    [resize    (recursive-contract (->m rational? (is-a?/c arc<%>)))]
+    [move      (recursive-contract (->m rational? (is-a?/c arc<%>)))]
+    [hatch     (recursive-contract (->m (is-a?/c arc<%>)))]
+    [guide     (->m (is-a?/c turtle<%>) void?)]
+    [transpose (recursive-contract (->m rational? rational? (is-a?/c arc<%>)))]
+    [scale     (recursive-contract (->m rational? (is-a?/c arc<%>)))]))
+
