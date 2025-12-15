@@ -15,30 +15,12 @@
 #lang racket/base
 
 (require
- "normalize-angle.rkt"
- "syntax-ext.rkt"
- "turtle.rkt"
- "abstract-turtle.rkt"
- "null-turtle.rkt"
- "dc-turtle.rkt"
- "path.rkt"
- "path-factory.rkt"
- "abstract-path.rkt"
- "image.rkt"
- "abstract-image.rkt"
- "simple-image.rkt")
+ racket/class
+ "path.rkt")
 
 (provide
- (all-from-out
- "normalize-angle.rkt"
- "syntax-ext.rkt"
- "turtle.rkt"
- "abstract-turtle.rkt"
- "null-turtle.rkt"
- "dc-turtle.rkt"
- "path.rkt"
- "path-factory.rkt"
- "abstract-path.rkt"
- "image.rkt"
- "abstract-image.rkt"
- "simple-image.rkt"))
+ path-factory<%>)
+
+(define path-factory<%>
+  (interface ()
+    [get-path (->m (is-a?/c path<%>))]))
