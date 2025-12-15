@@ -31,14 +31,8 @@
  make-path
  get-bitmap
  repeat
- with-path
  lambda/inductive
- define/inductive
- forward
- turn
- move
- resize
- label)
+ define/inductive)
 
 (define/contract (make-image . path-list)
   (-> (is-a?/c path<%>) ... (is-a?/c image<%>))
@@ -85,37 +79,3 @@
      #'(define name
          (lambda/inductive name x_i ...))]))
 
-(define a-path
-  (make-parameter #f))
-
-(define-syntax (with-path stx)
-  (syntax-parse stx
-    [(_ ()
-        e_i ...)
-     #'(with-path ((make-path))
-         e_i ...)]
-    [(_ (base)
-        e_i ...)
-     #'(parameterize ([a-path base])
-         e_i ...
-         (a-path))]))
-
-(define/contract (forward distance)
-  (-> rational? void?)
-  (a-path (send (a-path) forward distance)))
-
-(define/contract (turn angle)
-  (-> rational? void?)
-  (a-path (send (a-path) turn angle)))
-
-(define/contract (resize factor)
-  (-> rational? void)
-  (a-path (send (a-path) resize factor)))
-
-(define/contract (move distance)
-  (-> rational? void)
-  (a-path (send (a-path) move distance)))
-
-(define/contract (label text)
-  (-> string? void)
-  (a-path (send (a-path) label text)))

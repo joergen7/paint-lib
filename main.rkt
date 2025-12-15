@@ -17,6 +17,7 @@
 (require
  "normalize-angle.rkt"
  "syntax-ext.rkt"
+ "with-path.rkt"
  "turtle.rkt"
  "abstract-turtle.rkt"
  "null-turtle.rkt"
@@ -33,6 +34,7 @@
  (all-from-out
  "normalize-angle.rkt"
  "syntax-ext.rkt"
+ "with-path.rkt"
  "turtle.rkt"
  "abstract-turtle.rkt"
  "null-turtle.rkt"

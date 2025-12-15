@@ -30,8 +30,6 @@
     [get-max-x     (->m rational?)]
     [get-min-y     (->m rational?)]
     [get-max-y     (->m rational?)]
-    [get-width     (->m rational?)]
-    [get-height    (->m rational?)]
     [set-face      (->m rational? void?)]
     [set-pos       (->m rational? rational? void?)]
     [set-step-size (->m rational? void?)]
@@ -43,5 +41,5 @@
     [move          (->m rational? void?)]
     [resize        (->m rational? void?)]
     [turn          (->m rational? void?)]
-    [label         (->m string? void)]))
+    [label         (->m string? rational? void)]))
 

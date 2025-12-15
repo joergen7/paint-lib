@@ -58,10 +58,11 @@
            [parent this]
            [angle  (normalize-angle angle)]))
 
-    (define/public (label text)
+    (define/public (label text size)
       (new label-path%
            [parent this]
-           [text   text]))
+           [text   text]
+           [size   size]))
 
     (define/public (hatch)
       (define turtle
@@ -201,20 +202,23 @@
 
     (init-field
      parent
-     text)
+     text
+     size)
 
     (define/override (guide turtle)
       (send parent guide turtle)
-      (send turtle label text))
+      (send turtle label text size))
 
     (define/override (transpose dx dy)
       (new label-path%
            [parent (send parent transpose dx dy)]
-           [text   text]))
+           [text   text]
+           [size   size]))
 
     (define/override (scale factor)
       (new label-path%
            [parent (send parent scale factor)]
-           [text   text]))))
+           [text   text]
+           [size   size]))))
 
     

@@ -16,6 +16,7 @@
 
 (require
  racket/class
+ racket/draw
  "null-turtle.rkt")
 
 (provide
@@ -31,7 +32,7 @@
     (inherit
      get-x
      get-y
-     get-width
+     get-step-size
      move)
 
     (define/override (forward distance)
@@ -51,14 +52,26 @@
             (inexact->exact (round x1))
             (inexact->exact (round y1))))
 
-    (define/override (label text)
-      (super label text)
-      (define width
-        (get-width))
+    (define/override (label text size)
+
+      ;; (super label text size)
+
+      (define step-size
+        (get-step-size))
+
       (define x-offset
-        (/ width 40))
+        (* 0.25 size step-size))
+
       (define y-offset
-        (/ width 7))
+        (* 0.5 size step-size))
+
+      (define font
+        (make-object font% (/ (* size step-size) 2) 'default))
+
+      (send dc
+            set-font
+            font)
+
       (send dc
             draw-text
             text

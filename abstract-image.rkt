@@ -91,9 +91,6 @@
       (define dc
         (new bitmap-dc%
              [bitmap bitmap]))
-      (define font
-        (make-object font% (/ width 30) 'default))
-      (send dc set-font font)
       (define turtle
         (new dc-turtle%
              [dc dc]))

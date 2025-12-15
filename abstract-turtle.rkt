@@ -43,12 +43,6 @@
      set-min-y
      set-max-y)
 
-    (define/public (get-width)
-      (- (get-max-x) (get-min-x)))
-
-    (define/public (get-height)
-      (- (get-max-y) (get-min-y)))
-
     (define/public (forward distance)
       (move distance))
 
@@ -75,18 +69,21 @@
     (define/public (turn angle)
       (set-face (+ (get-face) angle)))
 
-    (define/public (label text)
+    (define/public (label text size)
       (define face0
         (get-face))
+      (define x0
+        (get-x))
+      (define y0
+        (get-y))
       (set-face (* 1/2 pi))
-      (move 1/2)
+      (forward (* 1/2 size))
       (turn (* -1/2 pi))
-      (move (* 0.6 (string-length text)))
+      (forward (* 0.4 size (string-length text)))
       (turn (* -1/2 pi))
-      (move 1)
+      (forward (* 1 size))
       (turn (* -1/2 pi))
-      (move (* 0.6 (string-length text)))
-      (turn (* -1/2 pi))
-      (move 1/2)
-      (set-face face0))))
+      (forward (* 0.4 size (string-length text)))
+      (set-face face0)
+      (set-pos x0 y0))))
       
