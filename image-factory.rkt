@@ -15,32 +15,12 @@
 #lang racket/base
 
 (require
- "normalize-angle.rkt"
- "syntax-ext.rkt"
- "turtle.rkt"
- "abstract-turtle.rkt"
- "null-turtle.rkt"
- "dc-turtle.rkt"
- "path.rkt"
- "path-factory.rkt"
- "abstract-path.rkt"
- "image.rkt"
- "image-factory.rkt"
- "abstract-image.rkt"
- "simple-image.rkt")
+ racket/class
+ "image.rkt")
 
 (provide
- (all-from-out
- "normalize-angle.rkt"
- "syntax-ext.rkt"
- "turtle.rkt"
- "abstract-turtle.rkt"
- "null-turtle.rkt"
- "dc-turtle.rkt"
- "path.rkt"
- "path-factory.rkt"
- "abstract-path.rkt"
- "image.rkt"
- "image-factory.rkt"
- "abstract-image.rkt"
- "simple-image.rkt"))
+ image-factory<%>)
+
+(define image-factory<%>
+  (interface ()
+    [get-image (->m (is-a?/c image<%>))]))
