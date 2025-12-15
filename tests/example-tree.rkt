@@ -29,31 +29,31 @@
   
   (define/inductive tree
     [base
-     (forward 1)]
+     (forward 1)
+     (turn pi)
+     (move 1)
+     (turn pi)]
     [inductive
      (forward 1)
      (resize factor)
      (turn angle1)
      (resize x1)
      (tree)
-     (turn pi)
-     (move 1)
-     (turn pi)
      (resize (/ 1 x1))
      (turn (- angle1))
      (turn angle2)
      (resize x2)
      (tree)
-     (turn pi)
-     (move 1)
-     (turn pi)
      (resize (/ 1 x2))
      (turn (- angle2))
-     (resize (/ 1 factor))])
+     (resize (/ 1 factor))
+     (turn pi)
+     (move 1)
+     (turn pi)])
 
 
   (define path
-    (tree (make-path) 10))
+    (tree (make-path) 12))
 
   (define image
     (make-image path))
