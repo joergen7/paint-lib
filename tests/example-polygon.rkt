@@ -27,7 +27,7 @@
     10)
 
   (define t
-    (with-arc ()
+    (with-path ()
       (repeat (n)
               (forward 1)
               (turn (/ (* 2 pi) n)))))

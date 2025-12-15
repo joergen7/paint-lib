@@ -27,23 +27,23 @@
     (super-new)
 
     (init-field
-     [arc-stream (stream)])
+     [path-stream (stream)])
 
-    (define/override (get-arc-stream)
-      arc-stream)
+    (define/override (get-path-stream)
+      path-stream)
 
     (define/override (transpose x y)
-      (define arc-stream1
-        (for/stream ([a (in-stream arc-stream)])
+      (define path-stream1
+        (for/stream ([a (in-stream path-stream)])
           (send a transpose x y)))
       (new simple-image%
-           [arc-stream arc-stream1]))
+           [path-stream path-stream1]))
 
     (define/override (scale factor)
-      (define arc-stream1
-        (for/stream ([a (in-stream arc-stream)])
+      (define path-stream1
+        (for/stream ([a (in-stream path-stream)])
           (send a scale factor)))
       (new simple-image%
-           [arc-stream arc-stream1]))))
+           [path-stream path-stream1]))))
 
 

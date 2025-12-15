@@ -38,7 +38,7 @@
        (turn (* 2/3 pi)))])
 
   (define t
-    (sierp (make-arc) 6))
+    (sierp (make-path) 6))
 
   (define image
     (make-image t))

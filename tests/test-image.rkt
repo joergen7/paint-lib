@@ -22,14 +22,14 @@
    rackunit
    "../syntax-ext.rkt")
 
-  (define arc
-    (with-arc ()
+  (define path
+    (with-path ()
       (forward 5)
       (turn (* 1/2 pi))
       (forward 4)))
 
   (define image0
-    (make-image arc))
+    (make-image path))
 
   (check-= (send image0 get-min-x) 0.0 0.001)
   (check-= (send image0 get-max-x) 5.0 0.001)

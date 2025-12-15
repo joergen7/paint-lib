@@ -17,31 +17,45 @@
 (module+ test
 
   (require
-   racket/class
-   racket/draw
    racket/math
    rackunit
    "../syntax-ext.rkt")
 
-  (define n
-    20)
+  (define factor  0.7)
+  (define angle1  0.5)
+  (define x1      1)
+  (define angle2 -0.1)
+  (define x2      1.3)
+  
+  (define/inductive tree
+    [base
+     (forward 1)]
+    [inductive
+     (forward 1)
+     (resize factor)
+     (turn angle1)
+     (resize x1)
+     (tree)
+     (turn pi)
+     (move 1)
+     (turn pi)
+     (resize (/ 1 x1))
+     (turn (- angle1))
+     (turn angle2)
+     (resize x2)
+     (tree)
+     (turn pi)
+     (move 1)
+     (turn pi)
+     (resize (/ 1 x2))
+     (turn (- angle2))
+     (resize (/ 1 factor))])
 
-  (define a
-    (* 0.8 pi))
 
-  (define s
-    .95)
-
-  (define t
-    (with-path ()
-      (repeat (n)
-              (forward 1)
-              (turn a)
-              (resize s))))
+  (define path
+    (tree (make-path) 10))
 
   (define image
-    (send (make-image t) fit-width 200))
+    (make-image path))
 
-
-  (get-bitmap image 200))
-
+  (get-bitmap image 600))

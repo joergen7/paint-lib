@@ -22,16 +22,16 @@
  racket/contract
  racket/draw
  "simple-image.rkt"
- "arc.rkt"
+ "path.rkt"
  "image.rkt"
- "abstract-arc.rkt")
+ "abstract-path.rkt")
 
 (provide
  make-image
- make-arc
+ make-path
  get-bitmap
  repeat
- with-arc
+ with-path
  lambda/inductive
  define/inductive
  forward
@@ -39,14 +39,14 @@
  move
  resize)
 
-(define/contract (make-image . arc-list)
-  (-> (is-a?/c arc<%>) ... (is-a?/c image<%>))
+(define/contract (make-image . path-list)
+  (-> (is-a?/c path<%>) ... (is-a?/c image<%>))
   (new simple-image%
-       [arc-stream arc-list]))
+       [path-stream path-list]))
 
-(define/contract (make-arc)
-  (-> (is-a?/c arc<%>))
-  (new origin-arc%))
+(define/contract (make-path)
+  (-> (is-a?/c path<%>))
+  (new origin-path%))
 
 (define/contract (get-bitmap image width)
   (-> (is-a?/c image<%>) exact-positive-integer? (is-a?/c bitmap%))
@@ -67,8 +67,8 @@
     [(_ name
         [base e_i ...]
         [inductive f_i ...])
-     #'(lambda (arc n)
-         (with-arc (arc)
+     #'(lambda (path n)
+         (with-path (path)
            (let recur ([i n])
              (define (name)
                (recur (sub1 i)))
@@ -84,33 +84,33 @@
      #'(define name
          (lambda/inductive name x_i ...))]))
 
-(define a-arc
+(define a-path
   (make-parameter #f))
 
-(define-syntax (with-arc stx)
+(define-syntax (with-path stx)
   (syntax-parse stx
     [(_ ()
         e_i ...)
-     #'(with-arc ((make-arc))
+     #'(with-path ((make-path))
          e_i ...)]
     [(_ (base)
         e_i ...)
-     #'(parameterize ([a-arc base])
+     #'(parameterize ([a-path base])
          e_i ...
-         (a-arc))]))
+         (a-path))]))
 
 (define/contract (forward distance)
   (-> rational? void?)
-  (a-arc (send (a-arc) forward distance)))
+  (a-path (send (a-path) forward distance)))
 
 (define/contract (turn angle)
   (-> rational? void?)
-  (a-arc (send (a-arc) turn angle)))
+  (a-path (send (a-path) turn angle)))
 
 (define/contract (resize factor)
   (-> rational? void)
-  (a-arc (send (a-arc) resize factor)))
+  (a-path (send (a-path) resize factor)))
 
 (define/contract (move distance)
   (-> rational? void)
-  (a-arc (send (a-arc) move distance)))
+  (a-path (send (a-path) move distance)))

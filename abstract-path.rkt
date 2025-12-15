@@ -16,20 +16,20 @@
 
 (require
  racket/class
- "arc.rkt"
+ "path.rkt"
  "null-turtle.rkt"
  "normalize-angle.rkt")
 
 (provide
- abstract-arc%
- origin-arc%
- forward-arc%
- move-arc%
- turn-arc%
- resize-arc%)
+ abstract-path%
+ origin-path%
+ forward-path%
+ move-path%
+ turn-path%
+ resize-path%)
 
-(define abstract-arc%
-  (class* object% (arc<%>)
+(define abstract-path%
+  (class* object% (path<%>)
     (super-new)
 
     (abstract
@@ -38,22 +38,22 @@
      scale)
 
     (define/public (forward distance)
-      (new forward-arc%
+      (new forward-path%
            [parent   this]
            [distance distance]))
 
     (define/public (move distance)
-      (new move-arc%
+      (new move-path%
            [parent   this]
            [distance distance]))
 
     (define/public (resize factor)
-      (new resize-arc%
+      (new resize-path%
            [parent this]
            [factor factor]))
 
     (define/public (turn angle)
-      (new turn-arc%
+      (new turn-path%
            [parent this]
            [angle  (normalize-angle angle)]))
 
@@ -61,15 +61,15 @@
       (define turtle
         (new null-turtle%))
       (guide turtle)
-      (new origin-arc%
+      (new origin-path%
            [x         (send turtle get-x)]
            [y         (send turtle get-y)]
            [face      (send turtle get-face)]
            [step-size (send turtle get-step-size)]))))
 
 
-(define origin-arc%
-  (class abstract-arc%
+(define origin-path%
+  (class abstract-path%
     (super-new)
 
     (init-field
@@ -87,21 +87,21 @@
 
 
     (define/override (transpose dx dy)
-      (new origin-arc%
+      (new origin-path%
            [x         (+ x dx)]
            [y         (+ y dy)]
            [face      face]
            [step-size step-size]))
 
     (define/override (scale factor)
-      (new origin-arc%
+      (new origin-path%
            [x         (* factor x)]
            [y         (* factor y)]
            [face      face]
            [step-size (* factor step-size)]))))
 
-(define forward-arc%
-  (class abstract-arc%
+(define forward-path%
+  (class abstract-path%
     (super-new)
 
     (init-field
@@ -113,17 +113,17 @@
       (send turtle forward distance))
 
     (define/override (transpose dx dy)
-      (new forward-arc%
+      (new forward-path%
            [parent   (send parent transpose dx dy)]
            [distance distance]))
 
     (define/override (scale factor)
-      (new forward-arc%
+      (new forward-path%
            [parent   (send parent scale factor)]
            [distance distance]))))
 
-(define move-arc%
-  (class abstract-arc%
+(define move-path%
+  (class abstract-path%
     (super-new)
 
     (init-field
@@ -135,17 +135,17 @@
       (send turtle move distance))
 
     (define/override (transpose dx dy)
-      (new move-arc%
+      (new move-path%
            [parent   (send parent transpose dx dy)]
            [distance distance]))
 
     (define/override (scale factor)
-      (new move-arc%
+      (new move-path%
            [parent   (send parent scale factor)]
            [distance distance]))))
 
-(define resize-arc%
-  (class abstract-arc%
+(define resize-path%
+  (class abstract-path%
     (super-new)
 
     (init-field
@@ -157,17 +157,17 @@
       (send turtle resize factor))
 
     (define/override (transpose dx dy)
-      (new resize-arc%
+      (new resize-path%
            [parent (send parent transpose dx dy)]
            [factor factor]))
 
     (define/override (scale factor1)
-      (new resize-arc%
+      (new resize-path%
            [parent (send parent scale factor1)]
            [factor factor]))))
 
-(define turn-arc%
-  (class abstract-arc%
+(define turn-path%
+  (class abstract-path%
     (super-new)
 
     (init-field
@@ -179,12 +179,12 @@
       (send turtle turn angle))
 
     (define/override (transpose dx dy)
-      (new turn-arc%
+      (new turn-path%
            [parent (send parent transpose dx dy)]
            [angle  angle]))
 
     (define/override (scale factor)
-      (new turn-arc%
+      (new turn-path%
            [parent (send parent scale factor)]
            [angle  angle]))))
 

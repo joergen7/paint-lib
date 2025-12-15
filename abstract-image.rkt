@@ -30,12 +30,12 @@
     (super-new)
 
     (abstract
-     get-arc-stream
+     get-path-stream
      transpose
      scale)
 
     (define turtle-stream
-      (for/stream ([a (in-stream (get-arc-stream))])
+      (for/stream ([a (in-stream (get-path-stream))])
         (define turtle
           (new null-turtle%))
         (send a guide turtle)
@@ -97,7 +97,7 @@
       (stream-for-each
        (lambda (a)
          (send a guide turtle))
-       (send image1 get-arc-stream))
+       (send image1 get-path-stream))
       bitmap)))
 
 

@@ -22,36 +22,36 @@
    rackunit
    "../syntax-ext.rkt")
 
-  (define arc0
-    (with-arc ()
+  (define path0
+    (with-path ()
       (forward 5)
       (turn (* 1/2 pi))
       (forward 4)))
 
   (define origin0
-    (get-field parent (get-field parent (get-field parent arc0))))
+    (get-field parent (get-field parent (get-field parent path0))))
 
   (check-equal? (get-field x origin0) 0)
   (check-equal? (get-field y origin0) 0)
   (check-equal? (get-field face origin0) 0)
   (check-equal? (get-field step-size origin0) 1)
 
-  (define arc1
-    (send arc0 scale 3))
+  (define path1
+    (send path0 scale 3))
   
   (define origin1
-    (get-field parent (get-field parent (get-field parent arc1))))
+    (get-field parent (get-field parent (get-field parent path1))))
 
   (check-equal? (get-field x origin1) 0)
   (check-equal? (get-field y origin1) 0)
   (check-equal? (get-field face origin1) 0)
   (check-equal? (get-field step-size origin1) 3)
 
-  (define arc2
-    (send arc0 transpose -2 -1))
+  (define path2
+    (send path0 transpose -2 -1))
 
   (define origin2
-    (get-field parent (get-field parent (get-field parent arc2))))
+    (get-field parent (get-field parent (get-field parent path2))))
   
   (check-equal? (get-field x origin2) -2)
   (check-equal? (get-field y origin2) -1)

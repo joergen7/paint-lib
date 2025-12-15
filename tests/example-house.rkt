@@ -23,7 +23,7 @@
 
 
   (define p
-    (with-arc ()
+    (with-path ()
       (forward 5)
       (turn (* 1/2 pi))
       (forward 5)

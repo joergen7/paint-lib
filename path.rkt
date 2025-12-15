@@ -20,16 +20,16 @@
  "turtle.rkt")
 
 (provide
- arc<%>)
+ path<%>)
 
-(define arc<%>
+(define path<%>
   (interface ()
-    [forward   (recursive-contract (->m rational? (is-a?/c arc<%>)))]
-    [turn      (recursive-contract (->m rational? (is-a?/c arc<%>)))]
-    [resize    (recursive-contract (->m rational? (is-a?/c arc<%>)))]
-    [move      (recursive-contract (->m rational? (is-a?/c arc<%>)))]
-    [hatch     (recursive-contract (->m (is-a?/c arc<%>)))]
+    [forward   (recursive-contract (->m rational? (is-a?/c path<%>)))]
+    [turn      (recursive-contract (->m rational? (is-a?/c path<%>)))]
+    [resize    (recursive-contract (->m rational? (is-a?/c path<%>)))]
+    [move      (recursive-contract (->m rational? (is-a?/c path<%>)))]
+    [hatch     (recursive-contract (->m (is-a?/c path<%>)))]
     [guide     (->m (is-a?/c turtle<%>) void?)]
-    [transpose (recursive-contract (->m rational? rational? (is-a?/c arc<%>)))]
-    [scale     (recursive-contract (->m rational? (is-a?/c arc<%>)))]))
+    [transpose (recursive-contract (->m rational? rational? (is-a?/c path<%>)))]
+    [scale     (recursive-contract (->m rational? (is-a?/c path<%>)))]))
 

@@ -21,7 +21,7 @@
    racket/math
    rackunit
    "../syntax-ext.rkt"
-   "../abstract-arc.rkt"
+   "../abstract-path.rkt"
    "../null-turtle.rkt")
 
   (let ([turtle (new null-turtle%)])
@@ -34,9 +34,9 @@
     (check-equal? (send turtle get-min-y) 0)
     (check-equal? (send turtle get-max-y) 0))
 
-  (let ([arc    (with-arc ())]
+  (let ([path    (with-path ())]
         [turtle (new null-turtle%)])
-    (send arc guide turtle)
+    (send path guide turtle)
     (check-equal? (send turtle get-x) 0)
     (check-equal? (send turtle get-y) 0)
     (check-equal? (send turtle get-face) 0)
@@ -46,10 +46,10 @@
     (check-equal? (send turtle get-min-y) 0)
     (check-equal? (send turtle get-max-y) 0))
 
-  (let ([arc    (with-arc ()
+  (let ([path    (with-path ()
                   (forward 4))]
         [turtle (new null-turtle%)])
-    (send arc guide turtle)
+    (send path guide turtle)
     (check-equal? (send turtle get-x) 4)
     (check-equal? (send turtle get-y) 0)
     (check-equal? (send turtle get-face) 0)
@@ -59,10 +59,10 @@
     (check-equal? (send turtle get-min-y) 0)
     (check-equal? (send turtle get-max-y) 0))
 
-  (let ([arc    (with-arc ()
+  (let ([path    (with-path ()
                   (move 5))]
         [turtle (new null-turtle%)])
-    (send arc guide turtle)
+    (send path guide turtle)
     (check-equal? (send turtle get-x) 5)
     (check-equal? (send turtle get-y) 0)
     (check-equal? (send turtle get-face) 0)
@@ -72,10 +72,10 @@
     (check-equal? (send turtle get-min-y) 0)
     (check-equal? (send turtle get-max-y) 0))
 
-  (let ([arc    (with-arc ()
+  (let ([path    (with-path ()
                   (turn 2))]
         [turtle (new null-turtle%)])
-    (send arc guide turtle)
+    (send path guide turtle)
     (check-equal? (send turtle get-x) 0)
     (check-equal? (send turtle get-y) 0)
     (check-equal? (send turtle get-face) 2)
@@ -85,10 +85,10 @@
     (check-equal? (send turtle get-min-y) 0)
     (check-equal? (send turtle get-max-y) 0))
 
-  (let ([arc    (with-arc ()
+  (let ([path    (with-path ()
                   (resize 3))]
         [turtle (new null-turtle%)])
-    (send arc guide turtle)
+    (send path guide turtle)
     (check-equal? (send turtle get-x) 0)
     (check-equal? (send turtle get-y) 0)
     (check-equal? (send turtle get-face) 0)
@@ -98,12 +98,12 @@
     (check-equal? (send turtle get-min-y) 0)
     (check-equal? (send turtle get-max-y) 0))
 
-  (let ([arc (with-arc ()
+  (let ([path (with-path ()
                (forward 5)
                (turn (* 1/2 pi))
                (forward 4))]
         [turtle (new null-turtle%)])
-    (send arc guide turtle)
+    (send path guide turtle)
     (check-equal? (send turtle get-x) 5.0)
     (check-equal? (send turtle get-y) 4.0)
     (check-equal? (send turtle get-face) (* 1/2 pi))
@@ -113,12 +113,12 @@
     (check-equal? (send turtle get-min-y) 0.0)
     (check-equal? (send turtle get-max-y) 4.0))
 
-  (let ([arc (with-arc ()
+  (let ([path (with-path ()
                (forward 5)
                (turn (* 1/2 pi))
                (forward 4))]
         [turtle (new null-turtle%)])
-    (send (send arc scale 3) guide turtle)
+    (send (send path scale 3) guide turtle)
     (check-equal? (send turtle get-x) 15.0)
     (check-equal? (send turtle get-y) 12.0)
     (check-equal? (send turtle get-face) (* 1/2 pi))
@@ -128,12 +128,12 @@
     (check-equal? (send turtle get-min-y) 0.0)
     (check-equal? (send turtle get-max-y) 12.0))
   
-  (let ([arc (with-arc ()
+  (let ([path (with-path ()
                (forward 5)
                (turn (* 1/2 pi))
                (forward 4))]
         [turtle (new null-turtle%)])
-    (send (send arc transpose -2 -1) guide turtle)
+    (send (send path transpose -2 -1) guide turtle)
     (check-= (send turtle get-x) 3.0 0.001)
     (check-= (send turtle get-y) 3.0 0.001)
     (check-= (send turtle get-face) (* 1/2 pi) 0.001)

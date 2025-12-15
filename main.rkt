@@ -21,8 +21,8 @@
  "abstract-turtle.rkt"
  "null-turtle.rkt"
  "dc-turtle.rkt"
- "arc.rkt"
- "abstract-arc.rkt"
+ "path.rkt"
+ "abstract-path.rkt"
  "image.rkt"
  "abstract-image.rkt"
  "simple-image.rkt")
@@ -35,8 +35,8 @@
  "abstract-turtle.rkt"
  "null-turtle.rkt"
  "dc-turtle.rkt"
- "arc.rkt"
- "abstract-arc.rkt"
+ "path.rkt"
+ "abstract-path.rkt"
  "image.rkt"
  "abstract-image.rkt"
  "simple-image.rkt"))

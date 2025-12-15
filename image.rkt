@@ -19,7 +19,7 @@
  racket/contract
  racket/stream
  racket/draw
- "arc.rkt")
+ "path.rkt")
 
 (provide
  image<%>)
@@ -35,6 +35,6 @@
     [fit-width      (recursive-contract (->m exact-positive-integer? (is-a?/c image<%>)))]
     [scale          (recursive-contract (->m rational? (is-a?/c image<%>)))]
     [transpose      (recursive-contract (->m rational? rational? (is-a?/c image<%>)))]
-    [get-arc-stream (->m (stream/c (is-a?/c arc<%>)))]
+    [get-path-stream (->m (stream/c (is-a?/c path<%>)))]
     [get-bitmap     (->m rational? (is-a?/c bitmap%))]))
 
