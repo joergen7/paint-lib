@@ -35,35 +35,35 @@
      scale)
 
     (define turtle-stream
-      (for/stream ([a (in-stream (get-path-stream))])
+      (for/stream ([path (in-stream (get-path-stream))])
         (define turtle
           (new null-turtle%))
-        (send a guide turtle)
+        (send path guide turtle)
         turtle))
 
     (define/public (get-min-x)
-      (apply
-       min
-       (for/list ([t (in-stream turtle-stream)])
-         (send t get-min-x))))
+      (define candidate-list
+        (for/list ([t (in-stream turtle-stream)])
+          (send t get-min-x)))
+      (apply min candidate-list))
 
     (define/public (get-max-x)
-      (apply
-       min
-       (for/list ([t (in-stream turtle-stream)])
-         (send t get-max-x))))
+      (define candidate-list
+        (for/list ([t (in-stream turtle-stream)])
+          (send t get-max-x)))
+      (apply max candidate-list))
 
     (define/public (get-min-y)
-      (apply
-       max
-       (for/list ([t (in-stream turtle-stream)])
-         (send t get-min-y))))
+      (define candidate-list
+        (for/list ([t (in-stream turtle-stream)])
+          (send t get-min-y)))
+      (apply min candidate-list))
 
     (define/public (get-max-y)
-      (apply
-       max
-       (for/list ([t (in-stream turtle-stream)])
-         (send t get-max-y))))
+      (define candidate-list
+        (for/list ([t (in-stream turtle-stream)])
+          (send t get-max-y)))
+      (apply max candidate-list))
 
     (define/public (get-width)
       (- (get-max-x) (get-min-x)))
@@ -95,8 +95,8 @@
         (new dc-turtle%
              [dc dc]))
       (stream-for-each
-       (lambda (a)
-         (send a guide turtle))
+       (lambda (path)
+         (send path guide turtle))
        (send image1 get-path-stream))
       bitmap)))
 

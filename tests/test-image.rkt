@@ -66,4 +66,25 @@
   (check-= (send image3 get-width) 199 0.001)
 
 
+  (let ([path1 (with-path ()
+                 (turn (* 1/2 pi))
+                 (forward 1)
+                 (turn (* -1/2 pi))
+                 (forward 1))]
+        [path2 (with-path ()
+                 (turn (* -1/2 pi))
+                 (forward 0.5)
+                 (turn (* 1/2 pi))
+                 (forward 2))])
+
+  (define image
+    (make-image path1 path2))
+
+  (check-= (send image get-min-x)   0.0 0.001)
+  (check-= (send image get-max-x)   2.0 0.001)
+  (check-= (send image get-min-y)  -0.5 0.001)
+  (check-= (send image get-max-y)   1.0 0.001)
+  (check-= (send image get-width)   2.0 0.001)
+  (check-= (send image get-height)  1.5 0.001))
+
   )
