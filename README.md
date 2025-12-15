@@ -15,8 +15,8 @@ A very simple paint library.
  racket/math
  paint-lib)
 
-(define arc
-  (with-arc ()
+(define path
+  (with-path ()
     (forward 5)
     (turn (* -1/2 pi))
     (forward 5)
@@ -34,7 +34,7 @@ A very simple paint library.
     (forward (* 5 (sqrt 2)))))
 
 (define image
-  (make-image arc))
+  (make-image path))
 
 (get-bitmap image 400)
 ```
