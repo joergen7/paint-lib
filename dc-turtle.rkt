@@ -31,6 +31,7 @@
     (inherit
      get-x
      get-y
+     get-width
      move)
 
     (define/override (forward distance)
@@ -48,5 +49,19 @@
             (inexact->exact (round x0))
             (inexact->exact (round y0))
             (inexact->exact (round x1))
-            (inexact->exact (round y1))))))
+            (inexact->exact (round y1))))
+
+    (define/override (label text)
+      (super label text)
+      (define width
+        (get-width))
+      (define x-offset
+        (/ width 40))
+      (define y-offset
+        (/ width 7))
+      (send dc
+            draw-text
+            text
+            (+ (get-x) x-offset)
+            (- (+ (get-y) y-offset))))))
 

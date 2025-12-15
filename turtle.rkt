@@ -30,13 +30,18 @@
     [get-max-x     (->m rational?)]
     [get-min-y     (->m rational?)]
     [get-max-y     (->m rational?)]
+    [get-width     (->m rational?)]
+    [get-height    (->m rational?)]
     [set-face      (->m rational? void?)]
     [set-pos       (->m rational? rational? void?)]
     [set-step-size (->m rational? void?)]
-    [set-min       (->m rational? rational? void?)]
-    [set-max       (->m rational? rational? void?)]
+    [set-min-x     (->m rational? void?)]
+    [set-max-x     (->m rational? void?)]
+    [set-min-y     (->m rational? void?)]
+    [set-max-y     (->m rational? void?)]
     [forward       (->m rational? void?)]
     [move          (->m rational? void?)]
     [resize        (->m rational? void?)]
-    [turn          (->m rational? void?)]))
+    [turn          (->m rational? void?)]
+    [label         (->m string? void)]))
 

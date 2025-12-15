@@ -37,7 +37,8 @@
  forward
  turn
  move
- resize)
+ resize
+ label)
 
 (define/contract (make-image . path-list)
   (-> (is-a?/c path<%>) ... (is-a?/c image<%>))
@@ -114,3 +115,7 @@
 (define/contract (move distance)
   (-> rational? void)
   (a-path (send (a-path) move distance)))
+
+(define/contract (label text)
+  (-> string? void)
+  (a-path (send (a-path) label text)))

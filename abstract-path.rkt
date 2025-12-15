@@ -26,7 +26,8 @@
  forward-path%
  move-path%
  turn-path%
- resize-path%)
+ resize-path%
+ label-path%)
 
 (define abstract-path%
   (class* object% (path<%>)
@@ -57,6 +58,11 @@
            [parent this]
            [angle  (normalize-angle angle)]))
 
+    (define/public (label text)
+      (new label-path%
+           [parent this]
+           [text   text]))
+
     (define/public (hatch)
       (define turtle
         (new null-turtle%))
@@ -82,9 +88,10 @@
       (send turtle set-pos x y)
       (send turtle set-face face)
       (send turtle set-step-size step-size)
-      (send turtle set-min x y)
-      (send turtle set-max x y))
-
+      (send turtle set-min-x x)
+      (send turtle set-max-x x)
+      (send turtle set-min-y y)
+      (send turtle set-max-y y))
 
     (define/override (transpose dx dy)
       (new origin-path%
@@ -188,3 +195,26 @@
            [parent (send parent scale factor)]
            [angle  angle]))))
 
+(define label-path%
+  (class abstract-path%
+    (super-new)
+
+    (init-field
+     parent
+     text)
+
+    (define/override (guide turtle)
+      (send parent guide turtle)
+      (send turtle label text))
+
+    (define/override (transpose dx dy)
+      (new label-path%
+           [parent (send parent transpose dx dy)]
+           [text   text]))
+
+    (define/override (scale factor)
+      (new label-path%
+           [parent (send parent scale factor)]
+           [text   text]))))
+
+    

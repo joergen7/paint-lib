@@ -70,11 +70,16 @@
     (define/override (set-step-size step-size1)
       (set! step-size step-size1))
 
-    (define/override (set-min min-x1 min-y1)
-      (set! min-x min-x1)
+    (define/override (set-min-x min-x1)
+      (set! min-x min-x1))
+
+    (define/override (set-max-x max-x1)
+      (set! max-x max-x1))
+
+    (define/override (set-min-y min-y1)
       (set! min-y min-y1))
 
-    (define/override (set-max max-x1 max-y1)
-      (set! max-x max-x1)
+    (define/override (set-max-y max-y1)
       (set! max-y max-y1))))
+
 
