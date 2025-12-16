@@ -21,10 +21,12 @@
  racket/class
  racket/contract
  racket/draw
+ racket/stream
  "simple-image.rkt"
  "path.rkt"
  "image.rkt"
- "abstract-path.rkt")
+ "abstract-path.rkt"
+ "path-factory.rkt")
 
 (provide
  make-image
@@ -40,8 +42,17 @@
  resize
  label)
 
-(define/contract (make-image . path-list)
-  (-> (is-a?/c path<%>) ... (is-a?/c image<%>))
+(define/contract (make-image . object-list)
+  (-> (or/c (is-a?/c path<%>)
+            (is-a?/c path-factory<%>)) ...
+      (is-a?/c image<%>))
+  (define path-list
+    (for/stream ([o (in-list object-list)])
+      (cond
+        [(is-a? o path-factory<%>)
+         (send o get-path)]
+        [else
+         o])))
   (new simple-image%
        [path-stream path-list]))
 
@@ -71,8 +82,10 @@
      #'(lambda (path n)
          (with-path (path)
            (let recur ([i n])
-             (define (name)
-               (recur (sub1 i)))
+             (define (name [factor 1])
+               (resize factor)
+               (recur (sub1 i))
+               (resize (/ 1 factor)))
              (cond
                [(zero? i)
                 e_i ...]

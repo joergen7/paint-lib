@@ -18,42 +18,41 @@
 
   (require
    racket/math
+   racket/contract
    rackunit
    "../syntax-ext.rkt")
 
-  (define factor  0.7)
-  (define angle1  0.5)
-  (define x1      1)
-  (define angle2 -0.1)
-  (define x2      1.3)
+  (define angle1  0.4)
+  (define x1      0.9)
+  (define angle2 -0.2)
+  (define x2      0.8)
+
+  (define/contract (perturb x)
+    (-> rational? rational?)
+    (* x
+       (add1 (* 0.4 (- (random) 0.5)))))
   
   (define/inductive tree
     [base
      (forward 1)
-     (turn pi)
-     (move 1)
-     (turn pi)]
+     (move -1)]
     [inductive
+     (define a1
+       (perturb angle1))
+     (define a2
+       (perturb angle2))
      (forward 1)
-     (resize factor)
-     (turn angle1)
-     (resize x1)
-     (tree)
-     (resize (/ 1 x1))
-     (turn (- angle1))
-     (turn angle2)
-     (resize x2)
-     (tree)
-     (resize (/ 1 x2))
-     (turn (- angle2))
-     (resize (/ 1 factor))
-     (turn pi)
-     (move 1)
-     (turn pi)])
+     (turn a1)
+     (tree (perturb x1))
+     (turn (- a1))
+     (turn a2)
+     (tree (perturb x2))
+     (turn (- a2))
+     (move -1)])
 
 
   (define path
-    (tree (make-path) 12))
+    (tree (with-path () (turn (* 1/2 pi))) 11))
 
   (define image
     (make-image path))

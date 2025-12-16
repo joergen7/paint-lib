@@ -74,30 +74,37 @@
     (define/public (fit-width width)
       (define image1
         (transpose (- (get-min-x)) (- (get-max-y))))
-      (define width0
-        (get-width))
-      (send image1 scale (/ (sub1 width) width0)))
+      (send image1 scale (/ (sub1 width) (get-width))))
 
     (define/public (get-bitmap width)
       (define image1
         (fit-width width))
+
+      (define scale-factor
+        (/ width (get-width)))
+      
       (define height
-        (add1
-         (inexact->exact
-          (round
-           (send image1 get-height)))))
+        (inexact->exact
+         (round
+          (* scale-factor
+             (get-height)))))
+
       (define bitmap
         (make-bitmap width height))
+
       (define dc
         (new bitmap-dc%
              [bitmap bitmap]))
+
       (define turtle
         (new dc-turtle%
              [dc dc]))
+      
       (stream-for-each
        (lambda (path)
          (send path guide turtle))
        (send image1 get-path-stream))
+      
       bitmap)))
 
 

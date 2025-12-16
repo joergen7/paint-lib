@@ -19,29 +19,32 @@
   (require
    racket/math
    racket/class
+   "../path-factory.rkt"
    "../syntax-ext.rkt")
 
-
-  (define p
-    (with-path ()
-      (forward 5)
-      (turn (* 1/2 pi))
-      (forward 5)
-      (turn (* 1/4 pi))
-      (forward (* 5/2 (sqrt 2)))
-      (turn (* 1/2 pi))
-      (forward (* 5/2 (sqrt 2)))
-      (turn (* 1/4 pi))
-      (forward 5)
-      (turn (* 3/4 pi))
-      (forward (* 5 (sqrt 2)))
-      (turn (* 3/4 pi))
-      (forward 5)
-      (turn (* 3/4 pi))
-      (forward (* 5 (sqrt 2)))))
+  (define house-path-factory%
+    (class* object% (path-factory<%>)
+      (super-new)
+      (define/public (get-path)
+        (with-path ()
+          (forward 5)
+          (turn (* 1/2 pi))
+          (forward 5)
+          (turn (* 1/4 pi))
+          (forward (* 5/2 (sqrt 2)))
+          (turn (* 1/2 pi))
+          (forward (* 5/2 (sqrt 2)))
+          (turn (* 1/4 pi))
+          (forward 5)
+          (turn (* 3/4 pi))
+          (forward (* 5 (sqrt 2)))
+          (turn (* 3/4 pi))
+          (forward 5)
+          (turn (* 3/4 pi))
+          (forward (* 5 (sqrt 2)))))))
 
   (define image
-    (make-image p))
+    (make-image (new house-path-factory%)))
 
   (get-bitmap image 200))
 
