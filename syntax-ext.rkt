@@ -40,7 +40,8 @@
  move
  turn
  resize
- label)
+ label
+ hatch)
 
 (define/contract (make-image . object-list)
   (-> (or/c (is-a?/c path<%>)
@@ -132,3 +133,7 @@
 (define/contract (label text size)
   (-> string? rational? void)
   (a-path (send (a-path) label text size)))
+
+(define/contract (hatch path)
+  (-> (is-a?/c path<%>) (is-a?/c path<%>))
+  (send path hatch))
