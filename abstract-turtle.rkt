@@ -79,7 +79,7 @@
       (set-face (* 1/2 pi))
       (forward (* 1/2 size))
       (turn (* -1/2 pi))
-      (forward (* 0.4 size (string-length text)))
+      (forward (* size (+ (* 0.5 (string-length text)) 0.25)))
       (turn (* -1/2 pi))
       (forward (* 1 size))
       (turn (* -1/2 pi))
